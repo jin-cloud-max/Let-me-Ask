@@ -10,6 +10,7 @@ import { useAuth } from '../hooks/useAuth';
 import logoImg from '../assets/images/logo.svg';
 
 import '../styles/room.scss'
+import { Question } from '../components/Question';
 
 type RoomParams = {
    id: string;
@@ -25,7 +26,7 @@ type FirebaseQuestions = Record<string, {
    isAnswered: boolean;
 }>
 
-type QuestionsProps = {
+type QuestionType = {
    id: string;
     author: {
       name: string;
@@ -43,7 +44,7 @@ export function Room() {
    const roomId = params.id
    
    const [newQuestion, setNewQuestion] = useState('')
-   const [questions, setQuestions] = useState<QuestionsProps[]>([])
+   const [questions, setQuestions] = useState<QuestionType[]>([])
    const [title, setTitle] = useState('')
 
    async function handleSendQuestion(e: FormEvent) {
@@ -130,7 +131,15 @@ export function Room() {
                </div>
             </form>
 
-            {JSON.stringify(questions)}
+            <div className="question-list">
+               {questions.map(question => (
+                  <Question
+                     key={question.id}
+                     content={question.content}
+                     author={question.author}
+                  />
+               ))}
+            </div>
          </main>
       </div>
    )
